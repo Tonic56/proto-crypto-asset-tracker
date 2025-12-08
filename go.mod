@@ -1,4 +1,4 @@
-module Tonic56
+module github.com/Tonic56/proto-crypto-asset-tracker
 
 go 1.25.4
 
