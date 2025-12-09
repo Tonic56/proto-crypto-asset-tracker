@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package auth;                                                                                                                            
 
-option go_package = "proto/gen/go/auth;auth";                                      
+option go_package = "github.com/Tonic56/proto-crypto-asset-tracker/proto/gen/go/auth;auth";                                        
 
 service Auth {                                                                                                                           
     rpc Register(RegisterRequest) returns (RegisterResponse);                                                                            
