@@ -3,11 +3,15 @@ syntax = "proto3";
 package auth;                                                                                                                            
 
 option go_package = "github.com/Tonic56/proto-crypto-asset-tracker/proto/gen/go/auth;auth";                                        
-
-service Auth {                                                                                                                           
-    rpc Register(RegisterRequest) returns (RegisterResponse);                                                                            
-    rpc Login(LoginRequest) returns (LoginResponse);                                                                                     
-    rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);                                                                
+//
+service Auth {           
+    //                                                                                                                
+    rpc Register(RegisterRequest) returns (RegisterResponse);        
+    //                                                                    
+    rpc Login(LoginRequest) returns (LoginResponse); 
+    //                                                                                    
+    rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);      
+    //                                                          
     rpc Logout(LogoutRequest) returns (LogoutResponse);                                                                                  
 }                                                                                                                                        
 
