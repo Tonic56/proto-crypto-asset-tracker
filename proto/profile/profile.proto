@@ -10,6 +10,8 @@ service Profile {
     //
     rpc AddCoin(AddCoinRequest) returns (AddCoinResponse);
     //
+    rpc UpdateCoin(UpdateCoinRequest) returns (UpdateCoinResponse);
+    //
     rpc DeleteCoin(DeleteCoinRequest) returns (DeleteCoinResponse);
 }
 
@@ -38,10 +40,19 @@ message AddCoinResponse {
     bool success = 1;
 }
 
-message DeleteCoinRequest {
+message UpdateCoinRequest {
     string user_id = 1;
     string symbol = 2;
     double quantity = 3;
+}
+
+message UpdateCoinResponse {
+    bool success = 1;
+}
+
+message DeleteCoinRequest {
+    string user_id = 1;
+    string symbol = 2;
 }
 
 message DeleteCoinResponse {
