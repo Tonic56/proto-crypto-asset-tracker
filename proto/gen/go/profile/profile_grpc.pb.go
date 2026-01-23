@@ -24,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type ProfileClient interface {
 	GetUserProfile(ctx context.Context, in *GetUserProfileRequest, opts ...grpc.CallOption) (*GetUserProfileResponse, error)
 	AddCoin(ctx context.Context, in *AddCoinRequest, opts ...grpc.CallOption) (*AddCoinResponse, error)
+	UpdateCoin(ctx context.Context, in *UpdateCoinRequest, opts ...grpc.CallOption) (*UpdateCoinResponse, error)
 	DeleteCoin(ctx context.Context, in *DeleteCoinRequest, opts ...grpc.CallOption) (*DeleteCoinResponse, error)
 }
 
@@ -53,6 +54,15 @@ func (c *profileClient) AddCoin(ctx context.Context, in *AddCoinRequest, opts ..
 	return out, nil
 }
 
+func (c *profileClient) UpdateCoin(ctx context.Context, in *UpdateCoinRequest, opts ...grpc.CallOption) (*UpdateCoinResponse, error) {
+	out := new(UpdateCoinResponse)
+	err := c.cc.Invoke(ctx, "/profile.Profile/UpdateCoin", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *profileClient) DeleteCoin(ctx context.Context, in *DeleteCoinRequest, opts ...grpc.CallOption) (*DeleteCoinResponse, error) {
 	out := new(DeleteCoinResponse)
 	err := c.cc.Invoke(ctx, "/profile.Profile/DeleteCoin", in, out, opts...)
@@ -68,6 +78,7 @@ func (c *profileClient) DeleteCoin(ctx context.Context, in *DeleteCoinRequest, o
 type ProfileServer interface {
 	GetUserProfile(context.Context, *GetUserProfileRequest) (*GetUserProfileResponse, error)
 	AddCoin(context.Context, *AddCoinRequest) (*AddCoinResponse, error)
+	UpdateCoin(context.Context, *UpdateCoinRequest) (*UpdateCoinResponse, error)
 	DeleteCoin(context.Context, *DeleteCoinRequest) (*DeleteCoinResponse, error)
 }
 
@@ -80,6 +91,9 @@ func (UnimplementedProfileServer) GetUserProfile(context.Context, *GetUserProfil
 }
 func (UnimplementedProfileServer) AddCoin(context.Context, *AddCoinRequest) (*AddCoinResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddCoin not implemented")
+}
+func (UnimplementedProfileServer) UpdateCoin(context.Context, *UpdateCoinRequest) (*UpdateCoinResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCoin not implemented")
 }
 func (UnimplementedProfileServer) DeleteCoin(context.Context, *DeleteCoinRequest) (*DeleteCoinResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCoin not implemented")
@@ -132,6 +146,24 @@ func _Profile_AddCoin_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Profile_UpdateCoin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCoinRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProfileServer).UpdateCoin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/profile.Profile/UpdateCoin",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProfileServer).UpdateCoin(ctx, req.(*UpdateCoinRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Profile_DeleteCoin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteCoinRequest)
 	if err := dec(in); err != nil {
@@ -164,6 +196,10 @@ var Profile_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddCoin",
 			Handler:    _Profile_AddCoin_Handler,
+		},
+		{
+			MethodName: "UpdateCoin",
+			Handler:    _Profile_UpdateCoin_Handler,
 		},
 		{
 			MethodName: "DeleteCoin",
