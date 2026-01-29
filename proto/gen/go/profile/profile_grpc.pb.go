@@ -23,8 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProfileClient interface {
 	GetUserProfile(ctx context.Context, in *GetUserProfileRequest, opts ...grpc.CallOption) (*GetUserProfileResponse, error)
-	AddCoin(ctx context.Context, in *AddCoinRequest, opts ...grpc.CallOption) (*AddCoinResponse, error)
-	UpdateCoin(ctx context.Context, in *UpdateCoinRequest, opts ...grpc.CallOption) (*UpdateCoinResponse, error)
+	UpdateCoinQuantity(ctx context.Context, in *UpdateCoinQuantityRequest, opts ...grpc.CallOption) (*UpdateCoinQuantityResponse, error)
 	DeleteCoin(ctx context.Context, in *DeleteCoinRequest, opts ...grpc.CallOption) (*DeleteCoinResponse, error)
 }
 
@@ -45,18 +44,9 @@ func (c *profileClient) GetUserProfile(ctx context.Context, in *GetUserProfileRe
 	return out, nil
 }
 
-func (c *profileClient) AddCoin(ctx context.Context, in *AddCoinRequest, opts ...grpc.CallOption) (*AddCoinResponse, error) {
-	out := new(AddCoinResponse)
-	err := c.cc.Invoke(ctx, "/profile.Profile/AddCoin", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *profileClient) UpdateCoin(ctx context.Context, in *UpdateCoinRequest, opts ...grpc.CallOption) (*UpdateCoinResponse, error) {
-	out := new(UpdateCoinResponse)
-	err := c.cc.Invoke(ctx, "/profile.Profile/UpdateCoin", in, out, opts...)
+func (c *profileClient) UpdateCoinQuantity(ctx context.Context, in *UpdateCoinQuantityRequest, opts ...grpc.CallOption) (*UpdateCoinQuantityResponse, error) {
+	out := new(UpdateCoinQuantityResponse)
+	err := c.cc.Invoke(ctx, "/profile.Profile/UpdateCoinQuantity", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -77,8 +67,7 @@ func (c *profileClient) DeleteCoin(ctx context.Context, in *DeleteCoinRequest, o
 // for forward compatibility
 type ProfileServer interface {
 	GetUserProfile(context.Context, *GetUserProfileRequest) (*GetUserProfileResponse, error)
-	AddCoin(context.Context, *AddCoinRequest) (*AddCoinResponse, error)
-	UpdateCoin(context.Context, *UpdateCoinRequest) (*UpdateCoinResponse, error)
+	UpdateCoinQuantity(context.Context, *UpdateCoinQuantityRequest) (*UpdateCoinQuantityResponse, error)
 	DeleteCoin(context.Context, *DeleteCoinRequest) (*DeleteCoinResponse, error)
 }
 
@@ -89,11 +78,8 @@ type UnimplementedProfileServer struct {
 func (UnimplementedProfileServer) GetUserProfile(context.Context, *GetUserProfileRequest) (*GetUserProfileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserProfile not implemented")
 }
-func (UnimplementedProfileServer) AddCoin(context.Context, *AddCoinRequest) (*AddCoinResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddCoin not implemented")
-}
-func (UnimplementedProfileServer) UpdateCoin(context.Context, *UpdateCoinRequest) (*UpdateCoinResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateCoin not implemented")
+func (UnimplementedProfileServer) UpdateCoinQuantity(context.Context, *UpdateCoinQuantityRequest) (*UpdateCoinQuantityResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCoinQuantity not implemented")
 }
 func (UnimplementedProfileServer) DeleteCoin(context.Context, *DeleteCoinRequest) (*DeleteCoinResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCoin not implemented")
@@ -128,38 +114,20 @@ func _Profile_GetUserProfile_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Profile_AddCoin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddCoinRequest)
+func _Profile_UpdateCoinQuantity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCoinQuantityRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ProfileServer).AddCoin(ctx, in)
+		return srv.(ProfileServer).UpdateCoinQuantity(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/profile.Profile/AddCoin",
+		FullMethod: "/profile.Profile/UpdateCoinQuantity",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProfileServer).AddCoin(ctx, req.(*AddCoinRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Profile_UpdateCoin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateCoinRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProfileServer).UpdateCoin(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/profile.Profile/UpdateCoin",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProfileServer).UpdateCoin(ctx, req.(*UpdateCoinRequest))
+		return srv.(ProfileServer).UpdateCoinQuantity(ctx, req.(*UpdateCoinQuantityRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -194,12 +162,8 @@ var Profile_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Profile_GetUserProfile_Handler,
 		},
 		{
-			MethodName: "AddCoin",
-			Handler:    _Profile_AddCoin_Handler,
-		},
-		{
-			MethodName: "UpdateCoin",
-			Handler:    _Profile_UpdateCoin_Handler,
+			MethodName: "UpdateCoinQuantity",
+			Handler:    _Profile_UpdateCoinQuantity_Handler,
 		},
 		{
 			MethodName: "DeleteCoin",

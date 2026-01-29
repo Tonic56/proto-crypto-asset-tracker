@@ -8,16 +8,14 @@ service Profile {
     //
     rpc GetUserProfile(GetUserProfileRequest) returns (GetUserProfileResponse);
     //
-    rpc AddCoin(AddCoinRequest) returns (AddCoinResponse);
-    //
-    rpc UpdateCoin(UpdateCoinRequest) returns (UpdateCoinResponse);
+    rpc UpdateCoinQuantity(UpdateCoinQuantityRequest) returns (UpdateCoinQuantityResponse);
     //
     rpc DeleteCoin(DeleteCoinRequest) returns (DeleteCoinResponse);
 }
 
 message Coin {
     string symbol = 1;
-    double quantity = 2;
+    string quantity = 2;
 }
 
 message GetUserProfileRequest {
@@ -30,23 +28,13 @@ message GetUserProfileResponse {
     repeated Coin coins = 3;
 }
 
-message AddCoinRequest {
+message UpdateCoinQuantityRequest {
     string user_id = 1;
     string symbol = 2;
-    double quantity = 3;
+    string quantity = 3;
 }
 
-message AddCoinResponse {
-    bool success = 1;
-}
-
-message UpdateCoinRequest {
-    string user_id = 1;
-    string symbol = 2;
-    double quantity = 3;
-}
-
-message UpdateCoinResponse {
+message UpdateCoinQuantityResponse {
     bool success = 1;
 }
 
