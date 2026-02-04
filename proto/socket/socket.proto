@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package socket;
+option go_package = "github.com/Tonic56/proto-crypto-asset-tracker/proto/gen/go/socket;socket";
+//
+service SocketService {
+    //
+    rpc ReceiveRawMiniTicker(RawMiniTickerRequest) returns (stream RawResponse);
+    //
+    rpc ReceiveRawAggTrade(RawAggTradeRequest) returns (stream RawResponse);
+}
+
+message RawAggTradeRequest {
+    string symbol = 1;
+}
+
+message RawMiniTickerRequest {}
+
+message RawResponse {
+    bytes data = 1; 
+}
